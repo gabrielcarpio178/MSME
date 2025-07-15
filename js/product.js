@@ -48,7 +48,15 @@ $(document).ready(function(){
             },
             cache: false,
             success: function(res){
-                console.log(res)
+                if(res==="update success"){
+                    successShowToastMessage();
+                    $("#message_text").text("Update Success")
+                    $("#message").text("Please wait for reload the page")
+                    $("#emessage_invalid").text("")
+                    $("#editCategory").modal('hide')
+                }else{
+                    $("#emessage_invalid").text(res)
+                }
             }
         })
     })
