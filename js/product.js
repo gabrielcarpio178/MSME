@@ -18,12 +18,14 @@ $(document).ready(function(){
             },
             success: function(res){
                 if(res==="add_success"){
-                    successShowToastMessage();
                     $("#name").val("")
                     $("#description").val("")
-                    $('#addCategory').modal('hide');
                     $("#message_text").text("Added Success")
                     $("#message").text("Please wait for reload the page")
+                    successShowToastMessage().then(()=>{
+                        $('#addCategory').modal('hide');
+                        location.reload();
+                    })
                 }
                 else{
                     $("#message_invalid").text(res)
@@ -49,17 +51,83 @@ $(document).ready(function(){
             cache: false,
             success: function(res){
                 if(res==="update success"){
-                    successShowToastMessage();
+                    
                     $("#message_text").text("Update Success")
                     $("#message").text("Please wait for reload the page")
                     $("#emessage_invalid").text("")
-                    $("#editCategory").modal('hide')
+                    successShowToastMessage().then(()=>{
+                        $("#editCategory").modal('hide')
+                        location.reload();
+                    });
                 }else{
                     $("#emessage_invalid").text(res)
                 }
             }
         })
     })
+    
+    //display selected image
+     $('#image_file').on('change', function (event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        if (file) {
+            //check insert file if is image
+            const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (!allowedExtensions.includes(fileExtension)) {
+                $('#message_img').text('File extension not allowed.');
+                $(this).val('');
+                $('#preview').html(``);
+            }else{
+                //review image file.
+                $('#message_img').text('');
+                reader.onload = function (e) {
+                    $('#preview').html(`<img src="${e.target.result}" width="200" />`);
+                };
+            }
+            reader.readAsDataURL(file);
+        } else {
+            $('#preview').html('');
+        }
+
+    });
+
+    //submit product data field with image of produc
+    $('#submit_addproduct').on('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+
+        await $.ajax({
+            url: '../../backend/includes/product.inc.php',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                if(res==="add success"){
+                    $('#pname').html(``);
+                    $('#pdescription').html(``);
+                    $('#price').html(``);
+                    $('#stock').html(``);
+                    $("#addProduct_message_invalid").text('');
+                    $("#message_text").text("Add Success")
+                    $("#message").text("Please wait for reload the page")
+                    successShowToastMessage().then(()=>{
+                        $("#image_file").val('');
+                        $('#preview').html(``);
+                        $("#btnProducts").modal("hide");
+                        location.reload();
+                    })
+                }else{
+                    $("#addProduct_message_invalid").text(res);
+                }
+
+            },
+        })
+    })
+
+
+
 })
 
 function showEdit(category_id, name, description){
@@ -71,13 +139,17 @@ function showEdit(category_id, name, description){
 }
 
 function successShowToastMessage(){
-    const toastElement = $("#successliveToast");
-    const toast = new bootstrap.Toast(toastElement[0]);
-    toast.show();
-    setTimeout(() => {
-        toast.hide();
-        location.reload();
-    }, 2000);
+    return new Promise((resolve) => {
+        const toastElement = $("#successliveToast");
+        const toast = new bootstrap.Toast(toastElement[0]);
+
+        toast.show();
+
+        setTimeout(() => {
+            toast.hide();
+            resolve(); 
+        }, 1000);
+    });
 }
 
 async function deleteCategory(category_id){
@@ -99,13 +171,32 @@ async function deleteCategory(category_id){
                 },
                 cache: false,
                 success: function (res){
-                    successShowToastMessage();
                     $("#message_text").text("Delete Success")
                     $("#message").text("Please wait to reload the page")
-                    $('#btnCategory').modal('hide');
+                    successShowToastMessage().then(()=>{
+                        $('#btnCategory').modal('hide');
+                        location.reload();
+                    });
                 }
             })
         }
     });
     
+}
+
+
+function deleteProduct(product_id){
+     Swal.fire({
+        title: "Are you sure?",
+        text: "",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            
+        }
+    });
 }

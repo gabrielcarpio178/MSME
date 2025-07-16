@@ -6,6 +6,7 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
     $user_id = $_SESSION['id'];
     include '../../backend/model/dbh.class.php';
     include '../../backend/model/category.class.php';
+    include '../../backend/model/product.class.php';
     //get category list
     class CategoriesData extends Category{
         public function getCategoriesList($user_id){
@@ -14,6 +15,15 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
     }
     $categories = new CategoriesData();
     $categoriesList = $categories->getCategoriesList($user_id);
+    //get products list
+    class ProductsData extends Product{
+        public function getProduct($supplier_id){
+            return $this->getProductList($supplier_id);
+        }
+    }
+    //instantiate class for ProductsData
+    $productClass = new ProductsData();
+    $products = $productClass->getProduct($user_id);
 }
 
 ?>
@@ -40,27 +50,43 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
                 Products
             </div>
             <div>
-                <button type="button" class="btn btn-primary">Add product</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#btnProducts">Add product</button>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#btnCategory">
                      Category
                 </button>
             </div>
         </div>
         <section class="container">
-            <div class="row row-cols-3 mt-2" >
-
+            <?php
+                if(count($products)===0){
+                echo "<p>No Product</p>";
+            }
+            ?>
+            <div class="row row-cols-3 mt-2 g-3" >
+                
+                <?php
+                foreach($products as $product){
+                ?>
                 <div class="col">
-                    <div class="card"  style="width: 18rem;">
-                        <img class="card-img-top" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1980ef92ec1%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1980ef92ec1%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1953125%22%20y%3D%2296.3%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="card product-container" style="width: 18rem;">
+                        <img class="card-img-top" src="../../uploads/<?php echo $product['image_url'] ?>" alt="Card image cap">
+                        <div class="card-body d-flex flex-column gap-1">
+                            <h5 class="card-title"><?php echo $product['name'] ?></h5>
+                            <div class="card-text"><?php echo $product['description'] ?></div>
+                            <div class="d-flex flex-row gap-1 justify-content-between">
+                                <div>Price: <span><?php echo $product['price']; ?></span></div>
+                                <div>Stock: <span><?php echo $product['stock_quantity']; ?></span></div>
+                            </div>
+                            <div>Category: <span  class="text-capitalize"><?php echo $product['category']; ?></span></div>
+                            <div class="d-flex flex-row gap-1 w-100">
+                                <button class="btn btn-primary w-50"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-danger w-50" onclick="deleteProduct('<?php echo $product['product_id'] ?>')"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                
+
+                <?php } ?>
             </div>
         </section>
 
@@ -141,7 +167,7 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
     </div>
 
     <!-- edit category modal -->
-     <div class="modal fade" id="editCategory" data-bs-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal fade" id="editCategory" data-bs-backdrop="static" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
@@ -163,6 +189,67 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
                     <p class="text-danger" id="emessage_invalid"></p>
                     <div class="form-group mt-2">
                         <button type="submit" class="btn btn-primary w-100">Save</button>
+                    </div>
+                </form>
+            </div>
+            
+            </div>
+        </div>
+    </div>
+
+    <!-- add product modal -->
+    <div class="modal fade" id="btnProducts" data-bs-backdrop="static" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit_addproduct">
+                    <div id="add_image" class="image-container">
+                        <div id="preview" class="position-absolute w-100 h-100 top-0">
+                            
+                        </div>
+                        <button class="btn btn-primary"  style="z-index: 999" type="button" id="btnchoose_file" onclick="$(`#image_file`).click()">Choose Image</button>
+                        <p class="text-danger" id="message_img"></p>
+                    </div>
+                    <input type="file" id="image_file" name="image_file">
+                    <div class="d-flex flex-row gap-2 w-100">
+                        <div class="form-group pt-2 w-50">
+                            <label for="category_id">Category</label>
+                            <select name="category_id" class="form-control text-capitalize" id="category_id" name="category_id" required>
+                                <?php
+                                foreach($categoriesList as $category){
+                                ?>
+                                    <option value="<?php echo $category['category_id'] ?>" class="text-capitalize"><?php echo $category['name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group pt-2 w-50">
+                            <label for="pname">Name</label>
+                            <input type="text" name="pname" class="form-control" id="pname" placeholder="Name" required>
+                        </div>
+                    </div>
+                    <div class="form-group pt-2">
+                        <label for="pdescription">Description</label>
+                        <textarea type="text" name="pdescription" class="form-control" id="pdescription" placeholder="Description" required></textarea></textarea>
+                    </div>
+                    <div class="d-flex flex-row gap-2 w-100">
+                        <div class="form-group pt-2 w-50">
+                            <label for="price">Price</label>
+                            <input type="number" name="price" class="form-control" id="price" placeholder="Price" required>
+                        </div>
+
+                        <div class="form-group pt-2 w-50">
+                            <label for="stock">Stock</label>
+                            <input type="number" name="stock" class="form-control" id="stock" placeholder="Stock" required>
+                        </div>
+                    </div>
+                    <p class="text-danger text-capitalize" id="addProduct_message_invalid"></p>
+                    <div class="form-group mt-2">
+                        <button type="submit" class="btn btn-primary w-100">Add</button>
                     </div>
                 </form>
             </div>

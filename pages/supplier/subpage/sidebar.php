@@ -46,7 +46,7 @@ $contents = [
         color: black;
     }
 </style>
-<nav class="nav-bar d-flex flex-column h-100 bg-dark">
+<nav class="nav-bar d-flex flex-column h-100 bg-dark shadow">
     <h2 class="supplier-title">Supplier</h2>
     <ul class="d-flex flex-column gap-1 mt-3 list-content">
         <?php foreach($contents as $content){ ?>

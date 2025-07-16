@@ -2,3 +2,37 @@
     padding-top: 75px;
     padding-left: 290px;
 }
+
+#add_image{
+    height: 30vh;
+    margin: 20px 5px;
+    border-radius: 10px/10px;
+    border-style: dashed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#image_file{
+    display: none;
+}
+
+.product-container > img{
+  height: 40vh;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;    
+  height: 300px;  
+  overflow: hidden;
+}
+
+.image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
