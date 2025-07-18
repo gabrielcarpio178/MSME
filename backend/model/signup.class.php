@@ -17,7 +17,7 @@ class Signup extends Dbh{
 
     protected function addCustomer($name, $address, $phone, $email, $pwd){
         $stmt = $this->connect()->prepare("INSERT INTO `customer`(`name`, `email`, `password_hash`, `address`, `phone`) VALUES (?,?,?,?,?)");
-        $stmt->execute([$name, $email, password_hash($pwd, PASSWORD_DEFAULT), $address, $phone]);
+        return $stmt->execute([$name, $email, password_hash($pwd, PASSWORD_DEFAULT), $address, $phone]);
     }
 
     protected function getEmailSupplier($email){
@@ -39,6 +39,24 @@ class Signup extends Dbh{
         $stmt = $this->connect()->prepare("INSERT INTO `supplier`(`bussiness_name`, `owner_name`, `email`, `password_hash`, `address`, `phone`) VALUES (?,?,?,?,?,?)");
         $stmt->execute([$bname, $oname, $email, password_hash($pwd, PASSWORD_DEFAULT), $address, $phone]);
     }
+
+    protected function getEmailRider($email){
+        $stmt = $this->connect()->prepare("SELECT `email` FROM `rider` WHERE `email` = ?");
+        $stmt->execute([$email]);
+        $resemail = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resemail !== false; 
+    }
+
+    protected function getPhoneRider($phone){
+        $stmt = $this->connect()->prepare("SELECT `phone` FROM `rider` WHERE `phone` = ?");
+        $stmt->execute([$phone]);
+        $resphone = $stmt->fetch(PDO::FETCH_ASSOC);
+       return $resphone !== false;
+    }
     
+     protected function addRiderData($name, $phone, $email, $pwd){
+        $stmt = $this->connect()->prepare("INSERT INTO `rider`(`name`, `email`, `password_hash`, `phone`) VALUES (?,?,?,?)");
+        return $stmt->execute([$name, $email, password_hash($pwd, PASSWORD_DEFAULT), $phone]);
+    }
     
 }

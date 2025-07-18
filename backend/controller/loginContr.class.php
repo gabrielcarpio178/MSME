@@ -11,7 +11,7 @@ class LoginContr extends Login{
 
     public function loginUser(){
         if ($this->checkIfEmpty()) {
-            header("Location: ../../index.php?message=email and password is required");
+            header("Location: ../../signin.php?message=email and password is required");
             return;
         }
         if($this->getAdmin($this->email, $this->pwd)['isLogin']===1){
@@ -30,7 +30,7 @@ class LoginContr extends Login{
             $supplier = $this->getSupplier($this->email, $this->pwd);
             return $supplier;
         }
-        header("Location: ../../index.php?message=wrong password or email&&email=".$this->email."&&password=".$this->pwd);
+        header("Location: ../../signin.php?message=wrong password or email&&email=".$this->email."&&password=".$this->pwd);
         return;
     }
 

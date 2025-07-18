@@ -20,10 +20,17 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
         public function getProduct($supplier_id){
             return $this->getProductList($supplier_id);
         }
+        public function searchProduct($supplier_id, $productSearch, $category_id){
+            return $this->searchProductList($supplier_id, $productSearch, $category_id);
+        }
     }
     //instantiate class for ProductsData
     $productClass = new ProductsData();
     $products = $productClass->getProduct($user_id);
+    if(isset($_GET['search'])||isset($_GET['scategory'])){
+        $_GET['content'] = 'products';
+        $products = $productClass->searchProduct($user_id, $_GET['search'], $_GET['scategory']);
+    }
 }
 
 ?>
@@ -57,6 +64,27 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
             </div>
         </div>
         <section class="container">
+            <div class="d-flex flex-column">
+                <form action="products.php?content=products&&" method="GET" class="d-flex flex-row align-items-end gap-2">
+                    <div class="form-group pt-2">
+                        <label for="search">Search</label>
+                        <input type="text" name="search" class="form-control" id="search" value="<?php echo isset($_GET['search'])?$_GET['search']:"" ?>">
+                    </div>
+                    <div class="form-group pt-2">
+                        <select name="scategory" class="form-control text-capitalize" id="scategory" required>
+                            <option value="all">All</option>
+                            <?php
+                            foreach($categoriesList as $category){
+                            ?>
+                                <option <?php echo isset($_GET['scategory'])&&$_GET['scategory']==$category['category_id']?"selected":"" ?> value="<?php echo $category['category_id'] ?>" class="text-capitalize"><?php echo $category['name'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+                </form>
+            </div>
             <?php
                 if(count($products)===0){
                 echo "<p>No Product</p>";
@@ -71,16 +99,16 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
                     <div class="card product-container" style="width: 18rem;">
                         <img class="card-img-top" src="../../uploads/<?php echo $product['image_url'] ?>" alt="Card image cap">
                         <div class="card-body d-flex flex-column gap-1">
-                            <h5 class="card-title"><?php echo $product['name'] ?></h5>
+                            <h5 class="card-title text-capitalize"><?php echo $product['name'] ?></h5>
                             <div class="card-text"><?php echo $product['description'] ?></div>
                             <div class="d-flex flex-row gap-1 justify-content-between">
-                                <div>Price: <span><?php echo $product['price']; ?></span></div>
+                                <div>Price: <i class="fa-solid fa-peso-sign"></i><span><?php echo $product['price']; ?></span></div>
                                 <div>Stock: <span><?php echo $product['stock_quantity']; ?></span></div>
                             </div>
                             <div>Category: <span  class="text-capitalize"><?php echo $product['category']; ?></span></div>
                             <div class="d-flex flex-row gap-1 w-100">
-                                <button class="btn btn-primary w-50"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button class="btn btn-danger w-50" onclick="deleteProduct('<?php echo $product['product_id'] ?>')"><i class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-primary w-50" onclick="editProducts(`<?php echo $product['product_id'] ?>`,`<?php echo $product['category_id'] ?>`,`<?php echo $product['name'] ?>`,`<?php echo $product['description'] ?>`,`<?php echo $product['price']; ?>`,`<?php echo $product['stock_quantity']; ?>`,`<?php echo $product['image_url'] ?>`)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-danger w-50" onclick="deleteProduct(`<?php echo $product['product_id'] ?>`,`<?php echo $product['image_url'] ?>`)"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
                     </div>
@@ -215,11 +243,11 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
                         <button class="btn btn-primary"  style="z-index: 999" type="button" id="btnchoose_file" onclick="$(`#image_file`).click()">Choose Image</button>
                         <p class="text-danger" id="message_img"></p>
                     </div>
-                    <input type="file" id="image_file" name="image_file">
+                    <input type="file" id="image_file" class="image-file" name="image_file">
                     <div class="d-flex flex-row gap-2 w-100">
                         <div class="form-group pt-2 w-50">
                             <label for="category_id">Category</label>
-                            <select name="category_id" class="form-control text-capitalize" id="category_id" name="category_id" required>
+                            <select name="category_id" class="form-control text-capitalize" id="category_id" required>
                                 <?php
                                 foreach($categoriesList as $category){
                                 ?>
@@ -234,7 +262,7 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
                     </div>
                     <div class="form-group pt-2">
                         <label for="pdescription">Description</label>
-                        <textarea type="text" name="pdescription" class="form-control" id="pdescription" placeholder="Description" required></textarea></textarea>
+                        <textarea type="text" name="pdescription" class="form-control" id="pdescription" placeholder="Description" required></textarea>
                     </div>
                     <div class="d-flex flex-row gap-2 w-100">
                         <div class="form-group pt-2 w-50">
@@ -250,6 +278,70 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
                     <p class="text-danger text-capitalize" id="addProduct_message_invalid"></p>
                     <div class="form-group mt-2">
                         <button type="submit" class="btn btn-primary w-100">Add</button>
+                    </div>
+                </form>
+            </div>
+            
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit product modal -->
+    <div class="modal fade" id="editBtnProducts" data-bs-backdrop="static" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit_editproduct">
+                    <input type="hidden" name="product_id" id="product_id">
+                    <input type="hidden" name="image_name" id="image_name">
+                    <input type="hidden" name="old_image_name" id="old_image_name">
+                    <div id="add_image" class="image-container">
+                        <div id="epreview" class="position-absolute w-100 h-100 top-0">
+                            
+                        </div>
+                        <button class="btn btn-primary"  style="z-index: 999" type="button" id="btnchoose_file" onclick="$(`#eimage_file`).click()">Choose Image</button>
+                        <p class="text-danger" id="emessage_img"></p>
+                    </div>
+                    <input type="file" id="eimage_file" class="image-file" name="eimage_file">
+                    <div class="d-flex flex-row gap-2 w-100">
+                        <div class="form-group pt-2 w-50">
+                            <label for="ecategory_id">Category</label>
+                            <select name="ecategory_id" class="form-control text-capitalize" id="ecategory_id" required>
+                                <?php
+                                foreach($categoriesList as $category){
+                                ?>
+                                    <option value="<?php echo $category['category_id'] ?>" class="text-capitalize"><?php echo $category['name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group pt-2 w-50">
+                            <label for="epname">Name</label>
+                            <input type="text" name="epname" class="form-control" id="epname" placeholder="Name" required>
+                        </div>
+                    </div>
+                    <div class="form-group pt-2">
+                        <label for="epdescription">Description</label>
+                        <textarea type="text" name="epdescription" class="form-control" id="epdescription" placeholder="Description" required></textarea>
+                    </div>
+                    <div class="d-flex flex-row gap-2 w-100">
+                        <div class="form-group pt-2 w-50">
+                            <label for="eprice">Price</label>
+                            <input type="number" name="eprice" class="form-control" id="eprice" placeholder="Price" required>
+                        </div>
+
+                        <div class="form-group pt-2 w-50">
+                            <label for="estock">Stock</label>
+                            <input type="number" name="estock" class="form-control" id="estock" placeholder="Stock" required>
+                        </div>
+                    </div>
+                    <p class="text-danger text-capitalize" id="editProduct_message_invalid"></p>
+                    <div class="form-group mt-2">
+                        <button type="submit" class="btn btn-primary w-100">Save</button>
                     </div>
                 </form>
             </div>

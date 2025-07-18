@@ -21,7 +21,7 @@ if(isset($_POST['btn_submit'])){
     }
     //add customer account
     if($role==="supplier"){
-        // print_r($_POST);
+         //get data from frontend
         $bname = $_POST['bname'];
         $oname = $_POST['oname'];
         $address = $_POST['address'];
@@ -33,5 +33,17 @@ if(isset($_POST['btn_submit'])){
         $supplier = new SignUpSupplier($bname, $oname, $address, $phone, $email, $pwd, $cpwd);
         //call signupSupplier function
         $supplier->signupSuplier();
+    }
+    if($role==="rider"){
+         //get data from frontend
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $email = $_POST['email'];
+        $pwd = $_POST['pwd'];
+        $cpwd = $_POST['con-pwd'];
+        //instantiate class for signupCustomer
+        $rider = new SignUpRider($name, $phone, $email, $pwd, $cpwd);
+        $rider->addRider();
+        
     }
 }

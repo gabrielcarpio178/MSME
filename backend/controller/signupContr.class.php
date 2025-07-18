@@ -113,3 +113,62 @@ class SignUpSupplier extends Signup {
     }
 
 }
+
+class SignUpRider extends Signup {
+        private $name;
+        private $phone;
+
+        private $pwd;
+        private $cpwd;
+
+        private $email;
+
+        public function __construct($name, $phone,  $email, $pwd, $cpwd){
+            $this->name = $name;
+            $this->phone = $phone;
+            $this->email = $email;
+            $this->pwd = $pwd;
+            $this->cpwd = $cpwd;
+        }
+
+        public function addRider(){
+            if($this->isInputEmpty()){
+                header("Location: ../../signup.php?role=rider&&name=".$this->name."&&phone=".$this->phone."&&email=".$this->email."&&pwd=".$this->pwd."&&cpwd=".$this->cpwd."&&message=input is empty");
+                exit;
+            }
+            if($this->isPwdMatch()){
+                 header("Location: ../../signup.php?role=rider&&name=".$this->name."&&phone=".$this->phone."&&email=".$this->email."&&pwd=".$this->pwd."&&cpwd=".$this->cpwd."&&message=password or confirm password is not match");
+                exit;
+            }
+            if($this->isValidPhone()){
+                header("Location: ../../signup.php?role=rider&&name=".$this->name."&&phone=".$this->phone."&&email=".$this->email."&&pwd=".$this->pwd."&&cpwd=".$this->cpwd."&&message=Phone number must be exactly 10 digits");
+                exit;
+            }
+            if($this->getEmailRider($this->email)){
+                header("Location: ../../signup.php?role=rider&&name=".$this->name."&&phone=".$this->phone."&&email=".$this->email."&&pwd=".$this->pwd."&&cpwd=".$this->cpwd."&&message=email is already used");
+                exit;
+            }
+            if($this->getPhoneRider($this->phone)){
+                 header("Location: ../../signup.php?role=rider&&name=".$this->name."&&phone=".$this->phone."&&email=".$this->email."&&pwd=".$this->pwd."&&cpwd=".$this->cpwd."&&message=phone number is already used");
+                 exit;
+            }
+            if($this->addRiderData($this->name, $this->phone, $this->email, $this->pwd)){
+                header("Location: ../../signup.php?role=rider&&success_message=Please Verify your account.");
+                exit;
+            }
+            
+        }
+
+        public function isPwdMatch(){
+            return $this->pwd !== $this->cpwd;
+        }
+
+        public function isInputEmpty(){
+            return empty($this->name)|| empty($this->phone)|| empty($this->pwd)|| empty($this->cpwd)||empty($this->email);
+        }
+
+        public function isValidPhone(){
+            return strlen($this->phone)!='10';
+        }
+
+}

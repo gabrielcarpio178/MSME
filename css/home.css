@@ -1,0 +1,122 @@
+.cover-photo{
+    background-image: url('../images/Frame 762.png');
+    height: 85vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+.cover-photo::before{
+    content: "";
+    background-color: black;
+    opacity: 0.5;
+    position: absolute;
+    width: 100%;
+    height: 85vh;
+    z-index: 1;
+}
+.cover-photo > .cover-text{
+    z-index: 2;
+    position: static;
+    color: white;
+    line-height: 1.5rem;
+}
+
+.cover-text > h2{
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.cover-text > p{
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.cover-photo > a{
+    background: yellow;
+    cursor: pointer;
+    font-weight: 600;
+    z-index: 2;
+    border-radius: 10px/10px;
+}
+
+.featured-product > h2{
+    font-weight: 600;
+}
+.product-container{
+    width: 22rem;
+    position: relative;
+}
+
+.product-container > img{
+    max-height: 15rem;
+}
+.product-rate{
+    position: absolute;
+    inset: 5px 0 0 10px;
+    font-size: 1rem;
+    height: 5vh;
+}
+.product-rate-text{
+    width: 35%;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 5px/5px;
+    color: white;
+    font-weight: 600;
+    background-color: orange;
+}
+
+.exclusives-products{
+    overflow: hidden;
+}
+
+.seller-profile > img{
+    max-height: 60px;
+    height: 100%;
+    max-width: 40px;
+    width: 100%;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+.product-info{
+    z-index: 999;
+}
+.supplier-price{
+    font-size: 1.5rem;
+}
+
+.btn-addtocart > button{
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-addtocart > button:hover{
+    transform: scale(1.1);
+}
+
+.btn-community > a:hover{
+    transform: scale(1.1);
+}
+
+.image-community{
+    border: 1px solid black;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px/10px;
+}
+
+
+.community-profile{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}

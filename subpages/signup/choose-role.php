@@ -3,7 +3,7 @@
         ["name"=>"Customer", "link"=>"signup.php?role=customer"],
         ["name"=>"Supplier", "link"=>"signup.php?role=supplier"],
         ["name"=>"Rider", "link"=>"signup.php?role=rider"],
-        ["name"=>"Back", "link"=>"index.php"],
+        ["name"=>"Back", "link"=>"signin.php?content=signin"],
     ];
     foreach($roles as $role){
         
