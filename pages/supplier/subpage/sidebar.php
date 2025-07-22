@@ -6,6 +6,7 @@ $contents = [
     ["name"=>"payments", "link"=>"#", "icon"=>'<i class="fas fa-credit-card"></i>'],
     ["name"=>"chats", "link"=>"#", "icon"=>'<i class="fas fa-comments"></i>'],
     ["name"=>"review", "link"=>"#", "icon"=>'<i class="fas fa-star"></i>'],
+    ["name"=>"profile", "link"=>"profile.php?content=profile", "icon"=>'<i class="fas fa-star"></i>'],
     ["name"=>"logout", "link"=>"../../backend/includes/logout.inc.php", "icon"=>'<i class="fas fa-right-from-bracket"></i>'],
 ]
 ?>

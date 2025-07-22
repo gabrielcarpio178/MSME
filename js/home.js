@@ -1,19 +1,19 @@
-$(document).ready(function(){
-    checkInView();
-    $(window).on('scroll resize', function(){
-        checkInView();
-    })
-});
+document.addEventListener("DOMContentLoaded", function () {
+    const animatedElements = document.querySelectorAll('.animate-content');
 
-//add animation when the animate-content class is view in screen
-function checkInView(){
-    $(".animate-content").each(function(){
-        var scrollTop = $(window).scrollTop();
-        var scrollBottom = scrollTop + $(window).height();
-        if(scrollBottom>900){
-            $(this).addClass('animate__fadeInUp');
-        }else if(scrollBottom<1500){
-            $(this).removeClass('animate__fadeInUp');
-        }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate__fadeInUp');
+                // Stop observing after animation applied (optional)
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of element is visible
     });
-}
+
+    animatedElements.forEach(el => {
+        observer.observe(el);
+    });
+});

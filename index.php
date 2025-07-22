@@ -9,15 +9,11 @@
     ];
 
     $communities = [
-        ['image'=>'', 'link'=>'#' ,'btnLabel'=>'Become a Seller' ,'name'=>'Sellers','description'=>'List your products manage orders and grow your artisan business with our platform'],
-        ['image'=>'', 'link'=>'#' ,'btnLabel'=>'Show now' ,'name'=>'Buyers','description'=>'Discover authentic local products, place orders and support Bago City artisan'],
-        ['image'=>'', 'link'=>'#' ,'btnLabel'=>'Apply on Rider' ,'name'=>'Riders','description'=>'Join Our delivery network and earn money by delivering products locally'],
-        ['image'=>'', 'link'=>'#' ,'btnLabel'=>'Admin Login' ,'name'=>'Admin','description'=>'Manage the marketplace verify sellers and ensure smooth operations'],
+        ['image'=>'images/supplier.png', 'link'=>'signup.php?role=supplier' ,'btnLabel'=>'Become a Seller' ,'name'=>'Sellers','description'=>'List your products manage orders and grow your artisan business with our platform'],
+        ['image'=>'images/customer.png', 'link'=>'signup.php?role=customer' ,'btnLabel'=>'Show now' ,'name'=>'Buyers','description'=>'Discover authentic local products, place orders and support Bago City artisan'],
+        ['image'=>'images/rider.jpeg', 'link'=>'signup.php?role=rider' ,'btnLabel'=>'Apply on Rider' ,'name'=>'Riders','description'=>'Join Our delivery network and earn money by delivering products locally'],
+        ['image'=>'images/dti.jpeg', 'link'=>'signin.php' ,'btnLabel'=>'Admin Login' ,'name'=>'Admin','description'=>'Manage the marketplace verify sellers and ensure smooth operations'],
     ]
-
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -25,6 +21,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="images/city_of_bago_logo_icon.png" />
     <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <script src="js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     <title>Home</title>
@@ -42,7 +39,7 @@
                 <h2>Discover Local Treasures in Bago City</h2>
                 <p>Shop authentic handmade products directly from local artisans and <br> support the vibrant culture of our community</p>
             </div>
-            <a href="#" type="button" class="px-4 py-3 mt-3 animate__animated animate__fadeInUp">Explore Products</a>
+            <a href="#" type="button" class="btn btn-warning animate__animated animate__fadeInUp">Explore Products</a>
         </div>   
 
         <div class="animate-content animate__animated text-success featured-product text-center">
@@ -53,8 +50,8 @@
             <p class="w-75">Bago Merkado is an online marketplace dedicated to showcasing and promoting the expeptional craftsmanship of Bago City's local artisans. We connect buyers with authentic, high-quality handmade products while providing our seller with a platform to grow their bussinesses</p>
         </div>
         
-        <div class="featured-product text-center">
-            <h2 class="text-success ">Featured Products</h2>
+        <div class=" animate-content featured-product animate__animated text-center">
+            <h2 class="text-success">Featured Products</h2>
             <p>
                 Discover Handpicked items from our talented local artisans
             </p>
@@ -101,7 +98,7 @@
                     <div class="card">
                          <div class="card-body d-flex flex-column gap-3 px-4 d-flex align-items-center">
                             <div class="image-community">
-                                <img src="<?php echo $community['image'] ?>" alt="<?php echo $community['name'] ?>">
+                                <img src="uploads/profile/<?php echo $community['image'] ?>" alt="<?php echo $community['name'] ?>">
                             </div>
                             <h5 class="card-title text-capitalize text-success text-center h3">
                                 <?php echo $community['name'] ?>
@@ -129,7 +126,7 @@
                     <img src="" alt="community-profile">
                 </div>
 
-                <p class="px-4 mt-5">"Bago Merkado has helped me turn weving passion into sustainable business. I've connected with customers whi truly appreciate traditional craftmanship"</p>
+                <p class="px-4 mt-5 text-center">"Bago Merkado has helped me turn weving passion into sustainable business. I've connected with customers whi truly appreciate traditional craftmanship"</p>
             </div>
 
             <div class="text-center">

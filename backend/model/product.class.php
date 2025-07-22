@@ -31,9 +31,6 @@ class Product extends Dbh{
              $dataArray = [$supplier_id, $product.'%', $category];
         }
 
-        
-
-
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute($dataArray);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -50,5 +47,12 @@ class Product extends Dbh{
         $stmt = $this->connect()->prepare("UPDATE `product` SET `category_id`= ?,`name`= ?,`description`=?,`price`= ?,`stock_quantity`=?,`image_url`=? WHERE `product_id` = ?");
         $stmt->execute([$category_id, $name, $description, $price, $stock, $image_name, $product_id]);
         return "update success";
+    }
+
+    protected function getAllProducts(){
+        $stmt = $this->connect()->prepare("SELECT pt.product_id, pt.name AS product_name, ct.name AS category_name, pt.description, pt.price, pt.image_url, st.bussiness_name, st.image_profile FROM product pt INNER JOIN category ct ON pt.category_id = ct.category_id INNER JOIN supplier st ON st.supplier_id = pt.supplier_id ORDER BY pt.product_id DESC;");
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $products;
     }
 }

@@ -1,5 +1,5 @@
 .cover-photo{
-    background-image: url('../images/Frame 762.png');
+    background-image: url('../images/bago-city-cover.jpg');
     height: 85vh;
     width: 100%;
     background-repeat: no-repeat;
@@ -8,9 +8,9 @@
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
     text-align: center;
     flex-direction: column;
+    justify-content: center;
 }
 .cover-photo::before{
     content: "";
@@ -107,12 +107,14 @@
 }
 
 .image-community{
-    border: 1px solid black;
     width: 70px;
     height: 70px;
     border-radius: 10px/10px;
 }
 
+.image-community > img{
+    width: 100%;
+}
 
 .community-profile{
     border: 1px solid black;

@@ -3,6 +3,7 @@ session_start();
 if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
     header("Location: ../../index.php");
 }
+// print_r($_SESSION['name']);
 ?>
 
 <!DOCTYPE html>

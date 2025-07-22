@@ -34,7 +34,7 @@ if(isset($_POST['btn_submit'])){
     if($user['role']==="customer"){
         $_SESSION['id'] = $user['userData']['customer_id'];
         $_SESSION['name'] = $user['userData']['name'];
-        header("Location: ../../pages/customer/dashboard.php");
+        header("Location: ../../index.php");
     }
     
 }

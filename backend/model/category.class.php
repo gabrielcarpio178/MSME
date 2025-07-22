@@ -51,4 +51,10 @@ class Category extends Dbh{
         return "update success";
     }
 
+    protected function getAllCategory(){
+        $stmt = $this->connect()->prepare("SELECT ct.name, ct.category_id, count(ct.category_id) AS count_product FROM category ct INNER JOIN product pt ON pt.category_id = ct.category_id GROUP BY pt.category_id;");
+        $stmt->execute();
+        $category = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $category;
+    }
 }
