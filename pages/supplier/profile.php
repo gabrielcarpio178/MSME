@@ -156,5 +156,5 @@ $userData = $_SESSION['name'];
 </body>
 <script src="../../js/jquery-3.7.1.min.js"></script>
 <script src="../../js/sweetalert2.min.js"></script>
-<script src="../../js/profile.js"></script>
+<script src="js/profile.js"></script>
 </html>

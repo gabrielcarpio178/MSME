@@ -1,3 +1,6 @@
+.content{
+    padding-top: 5rem;
+}
 .cover-photo{
     background-image: url('../images/bago-city-cover.jpg');
     height: 85vh;
@@ -83,7 +86,6 @@
     max-width: 40px;
     width: 100%;
     border-radius: 50%;
-    border: 1px solid black;
 }
 .product-info{
     z-index: 999;

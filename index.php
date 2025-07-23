@@ -1,12 +1,15 @@
 <?php 
-    $products = [
-        ['image'=>'file_6877ab41a427c3.74189373.jpg',
-        'name'=>'Traditional Handwoven Basket', 'price'=>620, 'seller_name'=>'Juan araneta', 'seller_profile'=>''],
-        ['image'=>'file_6877ab41a427c3.74189373.jpg',
-        'name'=>'Traditional Handwoven Basket', 'price'=>302, 'seller_name'=>'Juan araneta', 'seller_profile'=>''],
-        ['image'=>'file_6877ab41a427c3.74189373.jpg',
-        'name'=>'Traditional Handwoven Basket', 'price'=>620, 'seller_name'=>'Juan araneta', 'seller_profile'=>''],
-    ];
+    include 'backend/model/dbh.class.php';
+    include 'backend/model/product.class.php';
+
+    class ProductsView extends Product{
+        public function productsFeatured(){
+            return $this->getProductsFeatured();
+        }
+    }
+
+    $productsView= new ProductsView();
+    $products = $productsView->productsFeatured();
 
     $communities = [
         ['image'=>'images/supplier.png', 'link'=>'signup.php?role=supplier' ,'btnLabel'=>'Become a Seller' ,'name'=>'Sellers','description'=>'List your products manage orders and grow your artisan business with our platform'],
@@ -64,15 +67,15 @@
                         Recommend
                     </div>
                 </div>
-                <img class="card-img-top" src="uploads/<?php echo $product['image'] ?>" alt="Card image cap">
+                <img class="card-img-top" src="uploads/<?php echo $product['image_url'] ?>" alt="Card image cap">
                 <div class="card-body d-flex flex-column gap-3 px-4">
                     <h5 class="card-title text-capitalize">
                         <?php echo $product['name'] ?>
                     </h5>
                     <div class="seller-profile d-flex flex-row gap-1 align-items-center">
-                        <img src="<?php echo $product['seller_profile'] ?>" alt="<?php echo $product['seller_name'] ?>">
+                        <img src="uploads/profile-images/<?php echo $product['image_profile'] ?>" alt="<?php echo $product['owner_name'] ?>">
                         <div class="seller-name text-capitalize">
-                            <?php echo $product['seller_name'] ?>
+                            <?php echo $product['owner_name'] ?>
                         </div>
 
                     </div>
@@ -80,7 +83,7 @@
                        <i class="fa-solid fa-peso-sign"></i><span><?php echo $product['price'] ?></span>     
                     </h5>
                     <div class="w-100 btn-addtocart">
-                        <button class="btn btn-success w-100 text-center py-2">Add to Cart</button>
+                        <a href="view-product.php?content=product&id=<?php echo $product['product_id']; ?>" class="btn btn-success w-100 text-center py-2">Add to Cart</a>
                     </div>
                 </div>
                 
@@ -98,7 +101,7 @@
                     <div class="card">
                          <div class="card-body d-flex flex-column gap-3 px-4 d-flex align-items-center">
                             <div class="image-community">
-                                <img src="uploads/profile/<?php echo $community['image'] ?>" alt="<?php echo $community['name'] ?>">
+                                <img src="<?php echo $community['image'] ?>" alt="<?php echo $community['name'] ?>">
                             </div>
                             <h5 class="card-title text-capitalize text-success text-center h3">
                                 <?php echo $community['name'] ?>
@@ -138,6 +141,7 @@
 
 
     </div>
+    <?php include "subpages/footer.php" ?>
 </body>
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="js/home.js"></script>

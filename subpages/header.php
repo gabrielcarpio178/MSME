@@ -30,10 +30,6 @@ $viewContent = isset($_GET['content'])?$_GET['content']:"home";
         color: black;
         text-decoration: none; 
     }
-    .content{
-        padding-top: 5rem;
-    }
-
     .btnnavigate-content {
         position: relative;
         transition: all 0.3s ease;
@@ -116,7 +112,7 @@ $viewContent = isset($_GET['content'])?$_GET['content']:"home";
         </div>
         <ul class="navigate-content d-flex flex-row gap-lg-5 align-items-center w-50 justify-content-center">
             <li class="btnnavigate-content <?php echo $viewContent=="home"?"underline":"" ?>"><a href="index.php">Home</a></li>
-            <li class="btnnavigate-content <?php echo $viewContent=="product"?"underline":"" ?>"><a href="product.php?content=product">Products</a></li>
+            <li class="btnnavigate-content <?php echo $viewContent=="product"?"underline":"" ?>"><a href="product.php?content=product&category=all">Products</a></li>
             <li class="btnnavigate-content <?php echo $viewContent=="contact"?"underline":"" ?>"><a href="contact.php?content=contact">Contact</a></li>
             <li class="btnnavigate-content <?php echo $viewContent=="About"?"underline":"" ?>"><a href="about.php?content=about">About</a></li>
         </ul>

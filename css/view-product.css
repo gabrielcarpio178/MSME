@@ -1,0 +1,15 @@
+.content{
+    padding-top: 7rem;
+}
+.product-image{
+   width: 60%;
+   height: 60vh;
+}
+.product-image > img{
+    width: 70%;
+    height: 100%;
+}
+
+.image-supplier{
+    width: 40%;
+}

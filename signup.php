@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/all.css">
     <link rel="stylesheet" href="css/fontawesome.css">
+    <link rel="icon" type="image/svg+xml" href="images/city_of_bago_logo_icon.png" />
     <title>Signup</title>
 </head>
 <body>

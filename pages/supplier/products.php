@@ -353,5 +353,5 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
 </body>
 <script src="../../js/jquery-3.7.1.min.js"></script>
 <script src="../../js/sweetalert2.min.js"></script>
-<script src="../../js/product.js"></script>
+<script src="js/product.js"></script>
 </html>

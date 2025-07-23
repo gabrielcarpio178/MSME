@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2025 at 05:23 AM
+-- Generation Time: Jul 23, 2025 at 07:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,8 +62,12 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`category_id`, `supplier_id`, `name`, `description`, `status`, `created_at`) VALUES
-(1, 1, 'drinks', 'drinks for local', 'active', '2025-07-15'),
-(2, 1, 'bags', 'native bags for local', 'active', '2025-07-15');
+(23, 1, 'coffee', 'locally roasted in small batches, our coffee blends ethical sourcing with expert craftsmanship. bold, smooth, and full of flavor—crafted with care for true coffee lovers.', 'active', '2025-07-22'),
+(24, 1, 'condiments', 'handcrafted in small batches using fresh, locally sourced ingredients. our condiments are bold in flavor, free from additives, and made to elevate every meal—from casual bites to gourmet plates.', 'active', '2025-07-22'),
+(25, 1, 'food', 'crafted with care and tradition, our artisan foods are made in small batches using high-quality, locally sourced ingredients. each item is thoughtfully prepared to deliver authentic flavor, rich texture, and a homemade touch you can taste in every bite.', 'active', '2025-07-22'),
+(26, 1, 'spread', 'rich, smooth, and full of flavor, our handcrafted spreads are made in small batches using natural, locally sourced ingredients. whether sweet or savory, each jar is thoughtfully blended to elevate your toast, cheese board, or favorite recipe with a touch of gourmet goodness.\n', 'active', '2025-07-22'),
+(27, 1, 'sugar', 'naturally sweet and minimally processed, our artisan sugar is crafted in small batches to preserve its rich, molasses-kissed flavor and delicate texture. ideal for baking, stirring into coffee, or finishing dishes with a touch of rustic sweetness—it’s sugar, elevated.', 'active', '2025-07-22'),
+(28, 1, 'wine', 'handcrafted in limited batches, our artisan wine reflects the character of the land and the passion of local vintners. made with carefully selected grapes and traditional methods, each bottle offers a balanced, expressive flavor—perfect for savoring and sharing.', 'active', '2025-07-22');
 
 -- --------------------------------------------------------
 
@@ -92,6 +96,27 @@ INSERT INTO `customer` (`customer_id`, `name`, `email`, `password_hash`, `addres
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `featured_product`
+--
+
+CREATE TABLE `featured_product` (
+  `featured_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `featured_product`
+--
+
+INSERT INTO `featured_product` (`featured_id`, `product_id`, `created_at`) VALUES
+(1, 2, '2025-07-23'),
+(2, 5, '2025-07-23'),
+(3, 7, '2025-07-23');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product`
 --
 
@@ -107,6 +132,18 @@ CREATE TABLE `product` (
   `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`product_id`, `supplier_id`, `category_id`, `name`, `description`, `price`, `stock_quantity`, `image_url`, `status`, `created_at`) VALUES
+(2, 1, 25, 'Banana chips', 'Thinly sliced and gently crisped to perfection, our banana chips are made from ripe, locally sourced bananas. Lightly sweet with a natural crunch, they’re a wholesome snack—simple, satisfying, and free from artificial additives.', 50.00, 100, 'file_687f1a2210fb59.79130408.jpg', 'active', '2025-07-22'),
+(3, 1, 28, 'bignay', 'Made from handpicked bignay berries, this small-batch creation highlights the fruit’s naturally bold, tangy-sweet flavor. Rich in antioxidants and crafted with care, our bignay product offers a uniquely local taste—vibrant, earthy, and unmistakably Filipino.', 250.00, 200, 'file_687f1a5c4c2a53.34418053.jpg', 'active', '2025-07-22'),
+(4, 1, 27, 'mascubado', 'Rich, dark, and full of natural molasses, our muscovado sugar is minimally refined to preserve its deep, caramel-like flavor and moist texture. Handcrafted in small batches, it adds a bold, complex sweetness perfect for baking, cooking, or enhancing your favorite drinks.', 150.00, 100, 'file_687f1aa90a74a8.80430213.jpg', 'active', '2025-07-22'),
+(5, 1, 23, 'corn coffe', 'A unique blend crafted from carefully roasted corn kernels, our artisan corn coffee delivers a naturally sweet, nutty flavor with a smooth, caffeine-free finish. Perfect for those seeking a comforting and wholesome alternative to traditional coffee, made in small batches with local care.', 50.00, 200, 'file_687f1ae58c1528.12557451.jpg', 'active', '2025-07-22'),
+(6, 1, 24, 'sinamak', 'Crafted in small batches, our sinamak is a flavorful spiced vinegar made from carefully fermented local cane vinegar infused with natural spices like chili, garlic, and ginger. Bold, tangy, and aromatic, it’s the perfect condiment to brighten up your grilled dishes, kinilaw, and more.', 100.00, 100, 'file_687f1b2a39df03.50491134.jpg', 'active', '2025-07-22'),
+(7, 1, 26, 'papaya jam', 'Bursting with tropical sweetness, our papaya jam is handcrafted in small batches using ripe, juicy papayas and just the right amount of natural sweetness. Smooth, vibrant, and perfect for spreading on toast or pairing with cheese, it’s a delicious taste of the islands in every jar.', 200.00, 100, 'file_687f1ba2986f48.06214607.jpg', 'active', '2025-07-22');
 
 -- --------------------------------------------------------
 
@@ -145,6 +182,7 @@ CREATE TABLE `supplier` (
   `password_hash` text NOT NULL,
   `address` text NOT NULL,
   `phone` varchar(20) NOT NULL,
+  `image_profile` text NOT NULL DEFAULT 'file_687b804156d389.23427492.jpeg',
   `created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -152,9 +190,9 @@ CREATE TABLE `supplier` (
 -- Dumping data for table `supplier`
 --
 
-INSERT INTO `supplier` (`supplier_id`, `bussiness_name`, `owner_name`, `email`, `password_hash`, `address`, `phone`, `created_at`) VALUES
-(1, 'bussines name', 'owner', 'supplier@gmail.com', '$2y$10$INR4WiqQcywUb7LcME56Sumv4cN.Hfkc76EHNDjY4TY44zNgxEKGm', 'brgy. calumangan', '09567891234', '2025-07-12'),
-(2, 'sample bussiness name', 'sample owner name', 'supplierSample@gmail.com', '$2y$10$p7P/JBXykS.06qtV3CUhIOaXMG5Gi8LEBw5wOPELZwvJmDBm9xzm6', 'sample address', '9123456789', '2025-07-15');
+INSERT INTO `supplier` (`supplier_id`, `bussiness_name`, `owner_name`, `email`, `password_hash`, `address`, `phone`, `image_profile`, `created_at`) VALUES
+(1, 'bussines name', 'owner', 'supplier@gmail.com', '$2y$10$3ThLzwN0X5UISYw58t5U7.JJ5vObxN7BCHF.LsBoAZvMrnPq//JZ2', 'brgy. calumangan', '9567891232', 'file_687f1d88eed0e6.92579172.jpeg', '2025-07-12'),
+(2, 'sample bussiness name', 'sample owner name', 'supplierSample@gmail.com', '$2y$10$p7P/JBXykS.06qtV3CUhIOaXMG5Gi8LEBw5wOPELZwvJmDBm9xzm6', 'sample address', '9123456789', 'file_687f1d81094044.05969673.jpeg', '2025-07-15');
 
 --
 -- Indexes for dumped tables
@@ -178,6 +216,13 @@ ALTER TABLE `category`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indexes for table `featured_product`
+--
+ALTER TABLE `featured_product`
+  ADD PRIMARY KEY (`featured_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `product`
@@ -213,7 +258,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -222,10 +267,16 @@ ALTER TABLE `customer`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `featured_product`
+--
+ALTER TABLE `featured_product`
+  MODIFY `featured_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `rider`
@@ -248,6 +299,12 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `category`
   ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `featured_product`
+--
+ALTER TABLE `featured_product`
+  ADD CONSTRAINT `featured_product_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `product`

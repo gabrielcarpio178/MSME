@@ -50,9 +50,29 @@ class Product extends Dbh{
     }
 
     protected function getAllProducts(){
-        $stmt = $this->connect()->prepare("SELECT pt.product_id, pt.name AS product_name, ct.name AS category_name, pt.description, pt.price, pt.image_url, st.bussiness_name, st.image_profile FROM product pt INNER JOIN category ct ON pt.category_id = ct.category_id INNER JOIN supplier st ON st.supplier_id = pt.supplier_id ORDER BY pt.product_id DESC;");
+        $stmt = $this->connect()->prepare("SELECT pt.product_id, pt.name AS product_name, ct.name AS category_name, pt.description, pt.price, pt.image_url, st.bussiness_name, st.image_profile, st.owner_name FROM product pt INNER JOIN category ct ON pt.category_id = ct.category_id INNER JOIN supplier st ON st.supplier_id = pt.supplier_id ORDER BY pt.product_id DESC;");
         $stmt->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $products;
+    }
+    protected function getProductsFeatured(){
+        $stmt = $this->connect()->prepare("SELECT pt.product_id, pt.name, st.bussiness_name, st.owner_name, st.image_profile, pt.image_url, pt.price FROM featured_product ft INNER JOIN product pt ON pt.product_id = ft.product_id INNER JOIN supplier st ON pt.supplier_id = st.supplier_id ORDER BY ft.featured_id DESC");
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $products;
+    }
+
+    protected function getProductData($category_id){
+        $stmt = $this->connect()->prepare("SELECT pt.product_id, pt.name AS product_name, ct.name AS category_name, pt.description, pt.price, pt.image_url, st.bussiness_name, st.image_profile, st.owner_name FROM product pt INNER JOIN category ct ON pt.category_id = ct.category_id INNER JOIN supplier st ON st.supplier_id = pt.supplier_id WHERE ct.category_id = ? ORDER BY pt.product_id DESC;");
+        $stmt->execute([$category_id]);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $products;
+    }
+
+    protected function getProduct($product_id){
+        $stmt = $this->connect()->prepare("SELECT pt.product_id ,pt.name AS product_name, pt.description AS product_description, ct.name AS product_category_name, pt.price, st.image_profile, st.owner_name, IF(SUM(rt.rating) IS NULL, 0, SUM(rt.rating)) AS rating, pt.image_url, IF((pt.stock_quantity - SUM(ot.quantity)) IS NULL, pt.stock_quantity, (pt.stock_quantity - SUM(ot.quantity))) AS quantity_lift FROM product pt INNER JOIN supplier st ON pt.supplier_id = st.supplier_id INNER JOIN category ct ON pt.category_id = ct.category_id LEFT JOIN orders ot ON pt.product_id = ot.product_id LEFT JOIN rating rt ON rt.orders_id = ot.orders_id WHERE pt.product_id = ? GROUP BY pt.product_id;");
+        $stmt->execute([$product_id]);
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $product;
     }
 }
