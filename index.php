@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     include 'backend/model/dbh.class.php';
     include 'backend/model/product.class.php';
 
@@ -17,6 +18,8 @@
         ['image'=>'images/rider.jpeg', 'link'=>'signup.php?role=rider' ,'btnLabel'=>'Apply on Rider' ,'name'=>'Riders','description'=>'Join Our delivery network and earn money by delivering products locally'],
         ['image'=>'images/dti.jpeg', 'link'=>'signin.php' ,'btnLabel'=>'Admin Login' ,'name'=>'Admin','description'=>'Manage the marketplace verify sellers and ensure smooth operations'],
     ]
+
+    
 
 ?>
 <!DOCTYPE html>
@@ -83,7 +86,7 @@
                        <i class="fa-solid fa-peso-sign"></i><span><?php echo $product['price'] ?></span>     
                     </h5>
                     <div class="w-100 btn-addtocart">
-                        <a href="view-product.php?content=product&id=<?php echo $product['product_id']; ?>" class="btn btn-success w-100 text-center py-2">Add to Cart</a>
+                        <a href="view-product.php?content=product&id=<?php echo $product['product_id']; ?>" class="btn btn-success w-100 text-center py-2">View</a>
                     </div>
                 </div>
                 

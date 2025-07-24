@@ -17,7 +17,7 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
     $categoriesList = $categories->getCategoriesList($user_id);
     //get products list
     class ProductsData extends Product{
-        public function getProduct($supplier_id){
+        public function getProductInfo($supplier_id){
             return $this->getProductList($supplier_id);
         }
         public function searchProduct($supplier_id, $productSearch, $category_id){
@@ -26,7 +26,7 @@ if(!isset($_SESSION['role'])||$_SESSION['role']!=="supplier"){
     }
     //instantiate class for ProductsData
     $productClass = new ProductsData();
-    $products = $productClass->getProduct($user_id);
+    $products = $productClass->getProductInfo($user_id);
     if(isset($_GET['search'])||isset($_GET['scategory'])){
         $_GET['content'] = 'products';
         $products = $productClass->searchProduct($user_id, $_GET['search'], $_GET['scategory']);

@@ -69,9 +69,10 @@ class Product extends Dbh{
         return $products;
     }
 
-    protected function getProduct($product_id){
-        $stmt = $this->connect()->prepare("SELECT pt.product_id ,pt.name AS product_name, pt.description AS product_description, ct.name AS product_category_name, pt.price, st.image_profile, st.owner_name, IF(SUM(rt.rating) IS NULL, 0, SUM(rt.rating)) AS rating, pt.image_url, IF((pt.stock_quantity - SUM(ot.quantity)) IS NULL, pt.stock_quantity, (pt.stock_quantity - SUM(ot.quantity))) AS quantity_lift FROM product pt INNER JOIN supplier st ON pt.supplier_id = st.supplier_id INNER JOIN category ct ON pt.category_id = ct.category_id LEFT JOIN orders ot ON pt.product_id = ot.product_id LEFT JOIN rating rt ON rt.orders_id = ot.orders_id WHERE pt.product_id = ? GROUP BY pt.product_id;");
-        $stmt->execute([$product_id]);
+    protected function getProduct($customer_id ,$product_id){
+        $customerId = $customer_id!="no user"?$customer_id:'0';
+        $stmt = $this->connect()->prepare("SELECT pt.product_id ,pt.name AS product_name, pt.description AS product_description, ct.name AS product_category_name, pt.price, st.image_profile, st.owner_name, IF(SUM(rt.rating) IS NULL, 0, SUM(rt.rating)) AS rating, pt.image_url, IF(crt.customer_id = ?, 1, 0) AS isAddCart, crt.cart_id ,IF((pt.stock_quantity - SUM(ot.quantity)) IS NULL, pt.stock_quantity, (pt.stock_quantity - SUM(ot.quantity))) AS quantity_lift FROM product pt INNER JOIN supplier st ON pt.supplier_id = st.supplier_id INNER JOIN category ct ON pt.category_id = ct.category_id LEFT JOIN cart crt ON pt.product_id = crt.product_id LEFT JOIN orders ot ON pt.product_id = ot.product_id LEFT JOIN rating rt ON rt.orders_id = ot.orders_id WHERE pt.product_id = ? GROUP BY pt.product_id;");
+        $stmt->execute([$customerId, $product_id]);
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
         return $product;
     }

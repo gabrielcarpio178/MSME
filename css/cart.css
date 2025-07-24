@@ -1,0 +1,15 @@
+.content{
+    padding-top: 7rem;
+}
+.product-cell {
+  min-width: 25px;
+  max-width: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.product-cell img {
+  width: 60px;
+  height: auto;
+  margin-right: 10px;
+}

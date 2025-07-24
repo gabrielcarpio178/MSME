@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2025 at 07:02 AM
+-- Generation Time: Jul 24, 2025 at 07:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,6 +41,28 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`admin_id`, `name`, `email`, `password_hash`, `created_at`) VALUES
 (1, 'sample admin', 'admin@gmail.com', '$2y$10$lJBF5PPBE9rEyHb1S4KZjOBQkhvfKHvbIOmMfwctId/hzvXnOzzke', '2025-07-12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `cart_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cart_id`, `product_id`, `customer_id`, `created_at`) VALUES
+(3, 3, 1, '2025-07-24'),
+(4, 5, 1, '2025-07-24'),
+(7, 2, 1, '2025-07-25');
 
 -- --------------------------------------------------------
 
@@ -91,7 +113,8 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`customer_id`, `name`, `email`, `password_hash`, `address`, `phone`, `created_at`) VALUES
 (1, 'customer', 'customer@gmail.com', '$2y$10$t3fikFz2XuW8C73eVNIo5Osn/Lyi6px41ONiH0DWR6Bc4rUMLO7YS', 'brgy. Poblasion', '9123456789', '2025-07-12'),
-(2, 'sample', 'samplecustomer@gmail.com', '$2y$10$2TG8fIik1ihOhKbi4OULVelHgA6BLVLdnJxAMVbv2FpNywHJsDRkS', 'sample', '9123456782', '2025-07-15');
+(2, 'sample', 'samplecustomer@gmail.com', '$2y$10$2TG8fIik1ihOhKbi4OULVelHgA6BLVLdnJxAMVbv2FpNywHJsDRkS', 'sample', '9123456782', '2025-07-15'),
+(4, 'elsa lee', 'elsa@gmail.com', '$2y$10$/.tU07Ze3C6p8nDFUsvtxeGQwCwVeUlsU01HeM4z1HO22TyNp0pwS', 'brgy.taluk', '9636545679', '2025-07-24');
 
 -- --------------------------------------------------------
 
@@ -113,6 +136,31 @@ INSERT INTO `featured_product` (`featured_id`, `product_id`, `created_at`) VALUE
 (1, 2, '2025-07-23'),
 (2, 5, '2025-07-23'),
 (3, 7, '2025-07-23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `orders_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `created_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`orders_id`, `product_id`, `quantity`, `price`, `created_at`) VALUES
+(1, 3, 1, 100.00, 0),
+(2, 3, 3, 100.00, 0),
+(3, 3, 3, 100.00, 0),
+(4, 2, 1, 50.00, 0),
+(5, 7, 1, 50.00, 0);
 
 -- --------------------------------------------------------
 
@@ -148,6 +196,29 @@ INSERT INTO `product` (`product_id`, `supplier_id`, `category_id`, `name`, `desc
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rating`
+--
+
+CREATE TABLE `rating` (
+  `rating_id` int(11) NOT NULL,
+  `orders_id` int(11) NOT NULL,
+  `rating` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rating`
+--
+
+INSERT INTO `rating` (`rating_id`, `orders_id`, `rating`) VALUES
+(1, 1, 5),
+(3, 2, 5),
+(4, 3, 3),
+(5, 4, 5),
+(6, 5, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rider`
 --
 
@@ -166,7 +237,9 @@ CREATE TABLE `rider` (
 --
 
 INSERT INTO `rider` (`rider_id`, `name`, `email`, `password_hash`, `phone`, `status`, `created_at`) VALUES
-(1, 'rider', 'rider@gmail.com', '$2y$10$H0AgyvsSQgb5G10I/Hcc1O4mdoonW9GEsVAh/akOl7/qbZfV/gU0K', '09246813579', 'unavailable', '2025-07-12');
+(1, 'rider', 'rider@gmail.com', '$2y$10$H0AgyvsSQgb5G10I/Hcc1O4mdoonW9GEsVAh/akOl7/qbZfV/gU0K', '09246813579', 'unavailable', '2025-07-12'),
+(2, 'chris jhon campanil', 'campanilchrisjhon28@gmail.com', '$2y$10$H1cY5mS1HZktW1SiXapkx.wj6kB7Rpzs4ipFfh/aRjvUAwmGdv8fC', '9506506709', 'unavailable', '2025-07-24'),
+(3, 'chris jhon campanil', 'cj@gmail.com', '$2y$10$faCzQFtvbhBp1jGKMnzGl.5x56kl.vPvEsoTU0GFEZJTCyQCqfBA6', '9560867941', 'unavailable', '2025-07-24');
 
 -- --------------------------------------------------------
 
@@ -205,6 +278,14 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`admin_id`);
 
 --
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`cart_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `customer_id` (`customer_id`);
+
+--
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
@@ -225,12 +306,26 @@ ALTER TABLE `featured_product`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`orders_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`product_id`),
   ADD KEY `product_ibfk_1` (`category_id`),
   ADD KEY `supplier_id` (`supplier_id`);
+
+--
+-- Indexes for table `rating`
+--
+ALTER TABLE `rating`
+  ADD PRIMARY KEY (`rating_id`),
+  ADD KEY `orders_id` (`orders_id`);
 
 --
 -- Indexes for table `rider`
@@ -255,6 +350,12 @@ ALTER TABLE `admin`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
@@ -264,7 +365,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `featured_product`
@@ -273,16 +374,28 @@ ALTER TABLE `featured_product`
   MODIFY `featured_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `orders_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
   MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `rating`
+--
+ALTER TABLE `rating`
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `rider`
 --
 ALTER TABLE `rider`
-  MODIFY `rider_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `rider_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `supplier`
@@ -293,6 +406,13 @@ ALTER TABLE `supplier`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `category`
@@ -307,11 +427,23 @@ ALTER TABLE `featured_product`
   ADD CONSTRAINT `featured_product_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `rating`
+--
+ALTER TABLE `rating`
+  ADD CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`orders_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 $signUpcontent = ['customer','supplier','rider'];
 $viewContent = isset($_GET['content'])?$_GET['content']:"home";
 ?>
@@ -77,12 +77,19 @@ $viewContent = isset($_GET['content'])?$_GET['content']:"home";
     }
     .btnuser-account{
         position: absolute;
-        bottom: -450%;
+        bottom: -570%;
         display: none;
     }
     .btnuser-account > ul{
         background-color: white;
         border-radius: 5px/5px;
+    }
+    .account-content > li > a{
+        width: 100%;
+        display: block;
+    }
+    .account-content > li:hover a {
+        color: white;
     }
     .system_logo{
         width: 35%;
@@ -138,6 +145,8 @@ $viewContent = isset($_GET['content'])?$_GET['content']:"home";
                 <div class="position-absolute w-100 px-5 btnuser-account shadow-md">
                     <ul class="p-2 d-flex flex-column gap-3 account-content">
                         <li>Profile</li>
+                        <!-- when i hover this the text is not change. how to fixed? -->
+                        <li><a href="cart.php?content=cart">Cart</a></li>
                         <li>Chat</li>
                         <li>Order</li>
                         <li onclick="window.location = 'backend/includes/logout.inc.php'">Logout</li>

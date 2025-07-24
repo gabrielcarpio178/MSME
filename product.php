@@ -1,4 +1,5 @@
 <?php
+session_start();
     include 'backend/model/dbh.class.php';
     include 'backend/model/product.class.php';
     include 'backend/controller/productContr.class.php';
@@ -149,7 +150,7 @@ Limited time only – until July 31!</p>
                                 <div>
                                     <i class="fa-solid fa-peso-sign"></i><span><?php echo $feature['price'] ?></span> 
                                 </div>
-                                <a href="view-product.php?content=product&id=<?php echo $feature['product_id']; ?>" class="btn btn-success w-100 text-center p-0">Add to Cart</a>
+                                <a href="view-product.php?content=product&id=<?php echo $feature['product_id']; ?>" class="btn btn-success w-100 text-center p-0">View</a>
                             </div>
                         </div>
                         <?php } ?>
@@ -194,7 +195,7 @@ Limited time only – until July 31!</p>
                                     <i class="fa-solid fa-peso-sign"></i><span><?php echo $product['price'] ?></span>     
                                     </h5>
                                     <div class="w-100 btn-addtocart">
-                                        <a href="view-product.php?content=product&id=<?php echo $product['product_id']; ?>" class="btn btn-success w-100 text-center py-2">Add to Cart</a>
+                                        <a href="view-product.php?content=product&id=<?php echo $product['product_id']; ?>" class="btn btn-success w-100 text-center py-2">View</a>
                                     </div>
                                 </div>
                                 
@@ -231,7 +232,7 @@ Limited time only – until July 31!</p>
                                     <i class="fa-solid fa-peso-sign"></i><span><?php echo $product['price'] ?></span>     
                                     </h5>
                                     <div class="w-100 btn-addtocart">
-                                        <a href="<?php echo $product['product_id']; ?>" class="btn btn-success w-100 text-center py-2">Add to Cart</a>
+                                        <a href="<?php echo $product['product_id']; ?>" class="btn btn-success w-100 text-center py-2">View</a>
                                     </div>
                                 </div>
                                 

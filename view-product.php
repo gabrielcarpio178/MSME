@@ -1,4 +1,9 @@
 <?php
+session_start();
+$id_user = "no user";
+if(isset($_SESSION['id'])){
+    $id_user = $_SESSION['id'];
+}
 if(!isset($_GET['id'])){
     header("Location: product.php?content=product&category=all");
     exit;
@@ -7,8 +12,8 @@ $id = $_GET['id'];
 include 'backend/model/dbh.class.php';
 include 'backend/model/product.class.php';
 class View_product extends Product{
-    public function getProductData($product_id){
-        return $this->getProduct($product_id);
+    public function getProductInFo($customer_id, $product_id){
+        return $this->getProduct($customer_id, $product_id);
     }
     public function getRating($stars){
         if($stars<5){
@@ -22,9 +27,11 @@ class View_product extends Product{
         }
     }
 }
+
 $productData = new View_product();
-$product = $productData->getProductData($id);
+$product = $productData->getProductInFo($id_user, $id);
 $rating = $productData->getRating($product['rating']);
+
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +47,7 @@ $rating = $productData->getRating($product['rating']);
     <link rel="stylesheet" href="css/product.css">
     <link rel="icon" type="image/svg+xml" href="images/city_of_bago_logo_icon.png" />
     <link rel="stylesheet" href="css/view-product.css">
+    <link rel="stylesheet" href="css/sweetalert2.min.css">
     <title><?php echo $product['product_name'] ?></title>
 </head>
 <body>
@@ -58,7 +66,7 @@ $rating = $productData->getRating($product['rating']);
                             <i class="fas fa-star"></i>
                         </div>
                         <?php } ?>
-                        <p>(<?php echo $product['rating']; ?> Star) | (Quantity: <?php echo $product['quantity_lift'] ?>)</p>
+                        <p>(<?php echo $product['rating']; ?> Star) | (Stocks: <?php echo $product['quantity_lift'] ?>)</p>
                     </div>
                     <h3><i class="fa-solid fa-peso-sign"></i><?php echo $product['price'] ?></h3>
                     <p><?php echo $product['product_description'] ?></p>
@@ -75,12 +83,21 @@ $rating = $productData->getRating($product['rating']);
                                     <?php echo $product['owner_name'] ?>
                                 </div>
                             </div>
-                            <div class="w-100 mt-4">
-                                <button class="btn btn-success w-100">Buy</button>
+                            <div class="w-100 mt-4 d-flex flex-row gap-1">
+                                <?php if($product['isAddCart']===1){?>
+                                    <div class="bg-danger p-2 text-white w-25 text-center btn" style="border-radius: 5px/5px;" onclick="cancelCart(`<?php echo $product['cart_id']; ?>`)" id="btnAddtoCart">
+                                        <i class="fas fa-cancel"></i>
+                                    </div>
+                                <?php }else{ ?>
+                                    <div class="bg-success p-2 text-white w-25 text-center btn" style="border-radius: 5px/5px;" onclick="addtoCart(`<?php echo $id_user; ?>`, `<?php echo $_GET['id'] ?>`)" id="btnAddtoCart">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                <?php }?>   
+                                <button class="btn btn-success w-100 w-75">Buy now</button>
                             </div>
                         </div>
                         <div class="w-75 d-flex flex-row gap-2">
-                            <div class="w-50">
+                            <!-- <div class="w-50">
                                 <div class="card text-white bg-success d-flex flex-row align-items-center promo-content">
                                     <div class="py-1 px-2">
                                         <div class="d-flex flex-row align-items-center">
@@ -109,7 +126,7 @@ $rating = $productData->getRating($product['rating']);
                                         <p>Get 10% OFF your first order Code: FIRST10 Valid for new customers only</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -117,4 +134,7 @@ $rating = $productData->getRating($product['rating']);
         </div>
     </div>
 </body>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/sweetalert2.min.js"></script>
+<script src="js/view-product.js"></script>
 </html>
