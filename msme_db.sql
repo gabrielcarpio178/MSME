@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2025 at 07:50 PM
+-- Generation Time: Jul 25, 2025 at 05:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,9 +60,7 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`cart_id`, `product_id`, `customer_id`, `created_at`) VALUES
-(3, 3, 1, '2025-07-24'),
-(4, 5, 1, '2025-07-24'),
-(7, 2, 1, '2025-07-25');
+(16, 7, 1, '2025-07-25');
 
 -- --------------------------------------------------------
 
@@ -103,6 +101,7 @@ CREATE TABLE `customer` (
   `email` varchar(100) NOT NULL,
   `password_hash` text NOT NULL,
   `address` text NOT NULL,
+  `image_profile` text DEFAULT NULL,
   `phone` varchar(20) NOT NULL,
   `created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -111,10 +110,10 @@ CREATE TABLE `customer` (
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customer_id`, `name`, `email`, `password_hash`, `address`, `phone`, `created_at`) VALUES
-(1, 'customer', 'customer@gmail.com', '$2y$10$t3fikFz2XuW8C73eVNIo5Osn/Lyi6px41ONiH0DWR6Bc4rUMLO7YS', 'brgy. Poblasion', '9123456789', '2025-07-12'),
-(2, 'sample', 'samplecustomer@gmail.com', '$2y$10$2TG8fIik1ihOhKbi4OULVelHgA6BLVLdnJxAMVbv2FpNywHJsDRkS', 'sample', '9123456782', '2025-07-15'),
-(4, 'elsa lee', 'elsa@gmail.com', '$2y$10$/.tU07Ze3C6p8nDFUsvtxeGQwCwVeUlsU01HeM4z1HO22TyNp0pwS', 'brgy.taluk', '9636545679', '2025-07-24');
+INSERT INTO `customer` (`customer_id`, `name`, `email`, `password_hash`, `address`, `image_profile`, `phone`, `created_at`) VALUES
+(1, 'customer', 'customer@gmail.com', '$2y$10$t3fikFz2XuW8C73eVNIo5Osn/Lyi6px41ONiH0DWR6Bc4rUMLO7YS', 'brgy. Poblasion', 'file_687f1d81094044.05969671.jpeg', '9123456789', '2025-07-12'),
+(2, 'sample', 'samplecustomer@gmail.com', '$2y$10$2TG8fIik1ihOhKbi4OULVelHgA6BLVLdnJxAMVbv2FpNywHJsDRkS', 'sample', NULL, '9123456782', '2025-07-15'),
+(4, 'elsa lee', 'elsa@gmail.com', '$2y$10$/.tU07Ze3C6p8nDFUsvtxeGQwCwVeUlsU01HeM4z1HO22TyNp0pwS', 'brgy.taluk', NULL, '9636545679', '2025-07-24');
 
 -- --------------------------------------------------------
 
@@ -148,7 +147,7 @@ CREATE TABLE `orders` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `created_at` int(11) NOT NULL
+  `created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -156,11 +155,27 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`orders_id`, `product_id`, `quantity`, `price`, `created_at`) VALUES
-(1, 3, 1, 100.00, 0),
-(2, 3, 3, 100.00, 0),
-(3, 3, 3, 100.00, 0),
-(4, 2, 1, 50.00, 0),
-(5, 7, 1, 50.00, 0);
+(14, 3, 1, 250.00, '2025-07-25'),
+(15, 5, 1, 50.00, '2025-07-25'),
+(16, 2, 1, 50.00, '2025-07-25'),
+(17, 7, 1, 200.00, '2025-07-25'),
+(18, 7, 2, 200.00, '2025-07-25'),
+(19, 6, 2, 100.00, '2025-07-25'),
+(20, 7, 2, 200.00, '2025-07-25'),
+(21, 6, 2, 100.00, '2025-07-25'),
+(22, 7, 2, 200.00, '2025-07-25'),
+(23, 6, 2, 100.00, '2025-07-25'),
+(24, 7, 2, 200.00, '2025-07-25'),
+(25, 6, 2, 100.00, '2025-07-25'),
+(26, 7, 2, 200.00, '2025-07-25'),
+(27, 6, 2, 100.00, '2025-07-25'),
+(28, 7, 2, 200.00, '2025-07-25'),
+(29, 6, 2, 100.00, '2025-07-25'),
+(30, 7, 2, 200.00, '2025-07-25'),
+(31, 6, 2, 100.00, '2025-07-25'),
+(32, 4, 2, 150.00, '2025-07-25'),
+(33, 3, 1, 250.00, '2025-07-25'),
+(34, 7, 1, 200.00, '2025-07-25');
 
 -- --------------------------------------------------------
 
@@ -204,17 +219,6 @@ CREATE TABLE `rating` (
   `orders_id` int(11) NOT NULL,
   `rating` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `rating`
---
-
-INSERT INTO `rating` (`rating_id`, `orders_id`, `rating`) VALUES
-(1, 1, 5),
-(3, 2, 5),
-(4, 3, 3),
-(5, 4, 5),
-(6, 5, 3);
 
 -- --------------------------------------------------------
 
@@ -264,7 +268,7 @@ CREATE TABLE `supplier` (
 --
 
 INSERT INTO `supplier` (`supplier_id`, `bussiness_name`, `owner_name`, `email`, `password_hash`, `address`, `phone`, `image_profile`, `created_at`) VALUES
-(1, 'bussines name', 'owner', 'supplier@gmail.com', '$2y$10$3ThLzwN0X5UISYw58t5U7.JJ5vObxN7BCHF.LsBoAZvMrnPq//JZ2', 'brgy. calumangan', '9567891232', 'file_687f1d88eed0e6.92579172.jpeg', '2025-07-12'),
+(1, 'bussines name', 'owner', 'supplier@gmail.com', '$2y$10$//42JBGTgI2FcAX0aYpp0u.2MYi4Zr8GOElxn/rflm0MFvDReo0uW', 'brgy. calumangan', '9567891232', 'file_6882fe7bb8bc91.96668418.jpeg', '2025-07-12'),
 (2, 'sample bussiness name', 'sample owner name', 'supplierSample@gmail.com', '$2y$10$p7P/JBXykS.06qtV3CUhIOaXMG5Gi8LEBw5wOPELZwvJmDBm9xzm6', 'sample address', '9123456789', 'file_687f1d81094044.05969673.jpeg', '2025-07-15');
 
 --
@@ -353,7 +357,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -377,7 +381,7 @@ ALTER TABLE `featured_product`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orders_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `orders_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -389,7 +393,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rider`

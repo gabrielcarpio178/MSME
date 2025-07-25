@@ -34,6 +34,7 @@ if(isset($_POST['btn_submit'])){
     if($user['role']==="customer"){
         $_SESSION['id'] = $user['userData']['customer_id'];
         $_SESSION['name'] = $user['userData']['name'];
+        $_SESSION['image_profile'] = $user['userData']['image_profile'];
         header("Location: ../../index.php");
     }
     

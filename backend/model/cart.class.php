@@ -11,7 +11,7 @@ class Cart extends Dbh{
     }
 
     protected function getAddedCart($customer_id){
-        $stmt = $this->connect()->prepare("SELECT crt.cart_id ,crt.customer_id, pt.name, pt.image_url, pt.price FROM cart crt INNER JOIN product pt ON crt.product_id = pt.product_id WHERE crt.customer_id = ?");
+        $stmt = $this->connect()->prepare("SELECT pt.product_id ,crt.cart_id ,crt.customer_id, pt.name, pt.image_url, pt.price FROM cart crt INNER JOIN product pt ON crt.product_id = pt.product_id WHERE crt.customer_id = ?");
         $stmt->execute([$customer_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -26,6 +26,7 @@ $products = $cart->getProduct($customer_id);
     <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <script src="js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="css/sweetalert2.min.css">
     <link rel="icon" type="image/svg+xml" href="images/city_of_bago_logo_icon.png" />
     <title>Cart</title>
     <link rel="stylesheet" href="css/cart.css">
@@ -33,7 +34,8 @@ $products = $cart->getProduct($customer_id);
 <body>
     <?php include 'subpages/header.php' ?>
     <div class="content d-flex flex-row w-100">
-        <form class="p-5 w-100">
+        <?php if(count($products)!=0){ ?>
+        <form class="p-5 w-100" id="submitBuy">
 
             <table class="table table-striped">
                 <thead>
@@ -59,6 +61,8 @@ $products = $cart->getProduct($customer_id);
                                 <?php echo $product['price'] ?>
                             </td>
                             <td class="align-middle">
+                                <input type="hidden" name="cart_id[]" class="cart_id" value="<?php echo $product['cart_id']; ?>">
+                                <input type="hidden" name="product_id[]" class="product_id" value="<?php echo $product['product_id']; ?>">
                                 <input type="number" name="quantity[]" class="form-control quantity-input" style="width: 60px;" data-price="<?php echo $product['price'] ?>">
                             </td>
                             <td class="align-middle">
@@ -68,9 +72,16 @@ $products = $cart->getProduct($customer_id);
                     <?php }?>
                 </tbody>
             </table>
+            <div class="w-100 d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Check out</button>
+            </div>
         </form>
+        <?php }else{ ?>
+            <p>No product add to cart.</p>
+        <?php } ?>
     </div>
 </body>
 <script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/sweetalert2.min.js"></script>
 <script src="js/cart.js"></script>
 </html>

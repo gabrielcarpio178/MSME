@@ -2,6 +2,7 @@
 
 $signUpcontent = ['customer','supplier','rider'];
 $viewContent = isset($_GET['content'])?$_GET['content']:"home";
+
 ?>
 <style>
     .header-content{
@@ -62,9 +63,9 @@ $viewContent = isset($_GET['content'])?$_GET['content']:"home";
     }
     .profile-image > img{
         max-width: 100%;
-        width: 50%;
+        width: 100%;
         max-height: 100vh;
-        height: 50vh;
+        height: 7vh;
     }
     .action-content{
         font-size: 2rem;
@@ -135,8 +136,8 @@ $viewContent = isset($_GET['content'])?$_GET['content']:"home";
                     <div class="profile-name text-capitalize">
                         <?php echo $_SESSION['name']; ?>
                     </div>
-                    <div class="border border-black profile-image">
-                        <img src="" alt="customer-profile">
+                    <div class="profile-image">
+                        <img src="uploads/profile-images/<?php echo $_SESSION['image_profile']; ?>" alt="customer-profile">
                     </div>
                     <div class="action-content d-flex align-items-center" id="action_content">
                         &#11166;
